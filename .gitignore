@@ -1,0 +1,61 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# --- Virtual Environment ---
+.venv/
+venv/
+env/
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+.streamlit/*.json
+
+# --- OS Files ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+logs/
+*.tmp
+
+# --- PDFs & Raw Inputs ---
+*.pdf
+pdfs/
+uploads/
+input_pdfs/
+
+# --- Excel Outputs ---
+*.xlsx
+*.xls
+exports/
+output/
+ward_lists/
+
+# --- Cache ---
+.cache/
+*.cache
+*.pickle
+*.pkl
+
+# --- VS Code ---
+.vscode/
+*.code-workspace
+
+# --- Temporary Files ---
+tmp/
+temp/
+~$*
+
+# --- Bytecode ---
+*.pyc
+*.pyo
+
+# --- Misc ---
+*.bak
+*.swp
+*.swo
