@@ -14,7 +14,7 @@ def process1_page():
     st.header("Process 1 – Build Master & Old Ward Lists")
 
     uploaded_files = st.file_uploader(
-        "Upload Part-wise Voter PDFs (e.g., Part175.pdf, Part176.pdf, …)",
+        "Upload Part-wise Voter PDFs (e.g., Part175.pdf, Part176.pdf, ...)",
         type=["pdf"],
         accept_multiple_files=True,
     )
@@ -24,22 +24,23 @@ def process1_page():
         return
 
     if st.button("Extract All Parts"):
-        all_parts = []
+        all_parts: list[pd.DataFrame] = []
 
         for f in uploaded_files:
             part_no = infer_part_no_from_name(f.name) or 0
-            df_part = parse_part_from_bytes(f.read(), part_no=part_no)
+            file_bytes = f.read()
+            df_part = parse_part_from_bytes(file_bytes, part_no=part_no)
             all_parts.append(df_part)
 
         if not all_parts:
-            st.error("No voters extracted. Check PDF format.")
+            st.error("No voters extracted. Check PDFs or parser.")
             return
 
         master = pd.concat(all_parts, ignore_index=True)
         master["old_ward"] = ""
 
         st.success(f"Extracted {len(master)} voters from {len(uploaded_files)} parts.")
-        st.dataframe(master.head(50), width="stretch")
+        st.dataframe(master.head(50), use_container_width=True)
 
         st.subheader("Optional: Quick Ward Tagging by House No Prefix")
         ward = st.selectbox("Ward to assign", [f"W{i}" for i in range(1, 16)])
@@ -48,10 +49,12 @@ def process1_page():
         if st.button("Assign Ward by House No Prefix"):
             mask = master["house_no"].astype(str).str.startswith(prefix, na=False)
             master.loc[mask, "old_ward"] = ward
-            st.write(f"Assigned {mask.sum()} voters to {ward}.")
+            st.write(
+                f"Assigned {mask.sum()} voters to {ward} based on house_no prefix '{prefix}'."
+            )
 
         st.subheader("Manual Ward Editing")
-        edited = st.data_editor(master, num_rows="dynamic", width="stretch")
+        edited = st.data_editor(master, num_rows="dynamic", use_container_width=True)
 
         st.download_button(
             "Download Master with Old Wards",
