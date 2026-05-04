@@ -1,0 +1,15 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Ensure Unicode text (Punjabi/Hindi) is preserved
+*.py text working-tree-encoding=UTF-8
+*.md text working-tree-encoding=UTF-8
+*.txt text working-tree-encoding=UTF-8
+
+# Prevent Git from messing with binary files
+*.pdf binary
+*.xlsx binary
+*.xls binary
+*.png binary
+*.jpg binary
+*.jpeg binary
