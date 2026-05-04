@@ -1,7 +1,7 @@
 import re
 import streamlit as st
 import pandas as pd
-from parser import parse_part_from_bytes, extract_lines_from_bytes
+from parser import parse_part_from_bytes
 from utils import df_to_excel_bytes
 
 
@@ -28,15 +28,7 @@ def process1_page():
 
         for f in uploaded_files:
             part_no = infer_part_no_from_name(f.name) or 0
-            file_bytes = f.read()
-
-            # DEBUG PANEL
-            if st.checkbox(f"Show raw text for {f.name}", key=f"debug_{f.name}"):
-                lines = extract_lines_from_bytes(file_bytes)
-                st.write(f"Total lines extracted: {len(lines)}")
-                st.write(lines[:100])
-
-            df_part = parse_part_from_bytes(file_bytes, part_no=part_no)
+            df_part = parse_part_from_bytes(f.read(), part_no=part_no)
             all_parts.append(df_part)
 
         if not all_parts:

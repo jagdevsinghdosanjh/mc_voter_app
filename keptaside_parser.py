@@ -3,7 +3,7 @@ import pdfplumber
 import re
 import pandas as pd
 
-EPIC_RE = re.compile(r"^[A-Z]{3}\d{7,8}$")  # Updated: SDO04020269 = 11 chars
+EPIC_RE = re.compile(r"^[A-Z]{3}\d{7}$")
 
 
 def extract_lines_from_bytes(file_bytes: bytes):
